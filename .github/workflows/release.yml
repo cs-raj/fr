@@ -1,0 +1,68 @@
+name: Release
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    name: Build and upload
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '18.x'
+      - name: Install dependencies
+        run: npm install
+      - name: Build
+        run: npm run prepack
+      - name: Upload dist
+        uses: actions/upload-artifact@v3
+        with:
+          name: lib
+          path: lib
+
+  release:
+    name: Download dist and release
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '18.x'
+      - name: Install dependencies
+        run: npm install
+      - name: Download dist
+        uses: actions/download-artifact@v3
+        with:
+          name: lib
+          path: lib
+      - name: Display dirs
+        run: ls -R
+      - name: Release
+        id: release-plugin
+        uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+      - name: github-release
+        id: github-release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.release-plugin.outputs.version }}
+          release_name: Release ${{ steps.release-plugin.outputs.version }}
+          changelog:
+            categories:
+              - title: Release ${{ steps.release-plugin.outputs.version }}
+                labels:
+                  - '*'
