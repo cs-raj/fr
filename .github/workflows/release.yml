@@ -61,13 +61,8 @@ jobs:
         with:
           tag_name: v${{ steps.release-plugin.outputs.version }}
           release_name: Release ${{ steps.release-plugin.outputs.version }}
-          run: |
-          gh release create "$tag" \
-              --repo="$GITHUB_REPOSITORY" \
-              --title="${GITHUB_REPOSITORY#*/} ${tag#v}" \
-              --generate-notes
-# changelog:
-#   categories:
-#     - title: Release ${{ steps.release-plugin.outputs.version }}
-#       labels:
-#         - '*'
+  changelog:
+    categories:
+      - title: Release ${{ steps.release-plugin.outputs.version }}
+        labels:
+          - '*'
