@@ -62,9 +62,9 @@ jobs:
           tag_name: v${{ steps.release-plugin.outputs.version }}
           release_name: Release ${{ steps.release-plugin.outputs.version }}
           run: |
-          gh release create "$tag_name" \
+          gh release create "$tag" \
               --repo="$GITHUB_REPOSITORY" \
-              --title="${GITHUB_REPOSITORY#*/} ${tag_name#v}" \
+              --title="${GITHUB_REPOSITORY#*/} ${tag#v}" \
               --generate-notes
 # changelog:
 #   categories:
