@@ -61,8 +61,10 @@ jobs:
         with:
           tag_name: v${{ steps.release-plugin.outputs.version }}
           release_name: Release ${{ steps.release-plugin.outputs.version }}
-  changelog:
-    categories:
-      - title: Release ${{ steps.release-plugin.outputs.version }}
-        labels:
-          - '*'
+  cl:
+    steps:
+      changelog:
+        categories:
+          - title: Release ${{ steps.release-plugin.outputs.version }}
+            labels:
+              - '*'
