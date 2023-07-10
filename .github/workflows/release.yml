@@ -61,4 +61,5 @@ jobs:
         with:
           tag_name: v${{ steps.release-plugin.outputs.version }}
           release_name: Release ${{ steps.release-plugin.outputs.version }}
-          run:  gh release create v${{ steps.release-plugin.outputs.version }} --generate-notes
+      - name: generate-notes
+        run:  gh release create v${{ steps.release-plugin.outputs.version }} --generate-notes
