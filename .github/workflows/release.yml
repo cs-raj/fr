@@ -50,17 +50,22 @@ jobs:
         run: ls -R
       - name: Release
         id: release-plugin
-        uses: JS-DevTools/npm-publish@v1
+        uses: JS-DevTools/npm-publish@v2.2.0
         with:
           token: ${{ secrets.NPM_TOKEN }}
       - name: github-release
         id: github-release
-        uses: actions/create-release@v1
+        uses: actions/create-release@v1.1.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: v${{ steps.release-plugin.outputs.version }}
           release_name: Release ${{ steps.release-plugin.outputs.version }}
+          run: |
+          gh release create "$tag_name" \
+              --repo="$GITHUB_REPOSITORY" \
+              --title="${GITHUB_REPOSITORY#*/} ${tag_name#v}" \
+              --generate-notes
 # changelog:
 #   categories:
 #     - title: Release ${{ steps.release-plugin.outputs.version }}
