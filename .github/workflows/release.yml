@@ -58,10 +58,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run:  gh release create v${{ steps.release-plugin.outputs.version }} --title "Release ${{ steps.release-plugin.outputs.version }}" --generate-notes
-      #   with:
-      #     tag_name: v${{ steps.release-plugin.outputs.version }}
-      #     release_name: Release ${{ steps.release-plugin.outputs.version }}
-      # - name: generate-notes
-      #   env:
-      #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
