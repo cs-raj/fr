@@ -48,10 +48,9 @@ jobs:
           path: lib
       - name: Display dirs
         run: ls -R
-      - uses: Klemensas/action-autotag@stable
+      - uses: Klemensas/action-autotag@1.2.3
         id: update_tag
         with:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           tag_prefix: "v"
       - name: Release
         if: steps.update_tag.outputs.tagname
